@@ -1,0 +1,103 @@
+require 'redis'
+require 'rest-client'
+require 'json'
+
+class MatrixManager
+	def initialize
+		@redis = Redis.new(port: 6379)
+		@server = ""
+
+	end
+
+	def initialize_blank(size=1000)
+		 # puts self.create_rect({x:0, y:0}, {x: size-1, y: size-1}, "FFF")
+		 self.set_rect({x:0, y:0}, {x: size-1,y: size-1}, "000")
+	end
+
+	def read(argument)
+		if argument.class == Array
+			coordinates = self.many_coordinates(argument)
+			@redis.mget *coordinates
+		elsif argument.class ==Hash
+			coordinate = self.to_coordinate(argument)
+			@redis.get coordinate
+		end
+	end
+
+
+	def read_rect(start_point, end_point)
+		self.read(self.create_rect(start_point, end_point))
+	end
+
+	def set_rect(start_point, end_point, color, local=false)
+		data = self.create_rect(start_point, end_point, color)
+		
+		if local
+			self.local_set(data)
+		else 
+			pause_counter = 0
+			data.each do |datum|
+				self.send(datum)
+
+				if pause_counter == 2
+					sleep(1)
+					pause_counter = 0
+				else 
+					pause_counter += 1
+				end
+			end
+		end
+	end
+
+	def create_rect(start_point, end_point, color=nil)
+		points = []
+		if end_point[:x] > start_point[:x] && end_point[:y] > start_point[:y]
+				(start_point[:x]..end_point[:x]).each do |x|
+					(start_point[:y]..end_point[:y]).each do |y|
+						if color
+							points << {x: x, y: y, color: color}
+						else
+							points << {x: x, y: y}
+						end
+					end
+				end
+		end
+
+		points
+	end
+
+	def local_set(argument)
+		if argument.class == Array
+			coordinates = self.many_coordinates(argument, true)
+			coordinates.each do |coord|
+				@redis.set(coord[:coordinate], coord[:color])
+			end
+		elsif argument.class == Hash
+			coordinate = self.to_coordinate(argument)
+			@redis.set(coordinate, argument[:color])
+		end
+	end
+
+	def send(data)
+		RestClient.post(@server + "/set-tile", data.to_json, {content_type: :json, accept: :json})
+	end
+
+	def many_coordinates(array_hash, set=false)
+		array_hash.map do |hash|
+			coordinate = self.to_coordinate(hash)
+
+			if set
+				{coordinate: coordinate, color: hash[:color]}
+			else
+				coordinate
+			end
+		end
+	end
+
+	def to_coordinate(hash)
+		"#{hash[:x]}-#{hash[:y]}"
+	end
+
+end
+
+
