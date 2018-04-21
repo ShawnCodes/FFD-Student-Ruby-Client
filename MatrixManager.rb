@@ -5,8 +5,9 @@ require 'json'
 class MatrixManager
 	def initialize(id)
 		@redis = Redis.new(port: 6379)
-		@server_url = `http://mayisgr8.win`
+		@server_url = "http://mayisgr8.win"
 		@id = id
+		@last_write = Time.now
 	end
 
 	def initialize_blank(size=1000)
@@ -46,19 +47,19 @@ class MatrixManager
 
 	def set(argument, color)
 
+		if Time.now - @last_write >= 0.3
+			return
+		end
+
 		if argument.class == Array
-			pause_counter = 0
 			argument.each do |point|
 				self.send(point[:x], point[:y], point[:color] || color)
-				if pause_counter == 2
-					sleep(1)
-					pause_counter = 0
-				else
-					pause_counter += 1
-				end
+				@last_write = Time.now
+				sleep(0.31)
 			end
 		elsif argument.class == Hash
 			self.send(argument[:x], argument[:y], argument[:color] || color)
+			@last_write = Time.now
 		end
 
 	end
