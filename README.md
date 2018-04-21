@@ -24,7 +24,7 @@ To get started, please do the following:
 _First, if you would rather use Javascript than Ruby, switch over to [this](https://github.com/learn-co-curriculum/FFD-Student-JS-Client/) repo!_
 
 1. Install our nifty **Matrix Manager**
-* Clone down this repo and `cd` into it. There are two important files: `app.rb` and `MatrixManager.rb`, but you will mostly code in `app.rb`. Run `npm install` to install all dependencies. 
+* Clone down this repo and `cd` into it. There are two important files: `app.rb` and `MatrixManager.rb`, but you will mostly code in `app.rb`. Run `bundle install` to install all dependencies. 
 
 2. Set your team ID
 * Inside `app.rb`, you will notice a very conscipicuous String that says `ENTER TEAM ID HERE`. Do this.
