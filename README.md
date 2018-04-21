@@ -37,10 +37,10 @@ With that all setup, take a look at `app.rb`. Inside, you will notice a space fo
 ```ruby
 matrix = MatrixManager.new(teamID)
 
-//Returns a hash containing the color stored at coordinate (0,0)
+#Returns a hash containing the color stored at coordinate (0,0)
 matrix.read({x:0, y:0})
 
-//Returns an array of the colors stored at coordinates (0,0), (1,1), and (1,2)
+#Returns an array of the colors stored at coordinates (0,0), (1,1), and (1,2)
 matrix.read([{x:0, y:0}, {x:1, y:1}, {x:1, y:2}])
 ```
 
@@ -51,7 +51,7 @@ matrix.read([{x:0, y:0}, {x:1, y:1}, {x:1, y:2}])
 ```ruby
 matrix = MatrixManager.new(teamID)
 
-//Returns the colors stored in all tiles within the rectangle with an upper left corner at (1,1) and a lower right corner at (4,6)
+#Returns the colors stored in all tiles within the rectangle with an upper left corner at (1,1) and a lower right corner at (4,6)
 matrix.read_rect({x:1, y:1}, {x:4, y:6})
 ```
 
@@ -62,10 +62,10 @@ matrix.read_rect({x:1, y:1}, {x:4, y:6})
 ```ruby
 matrix = MatrixManager.new(teamID)
 
-//Colors the tile at (3,4) white
+#Colors the tile at (3,4) white
 matrix.set({x:3, y:4}, "FFFFFF")
 
-//Colors tiles at (5,6) and (13,2) white while making the tile at (8,12) blue.
+#Colors tiles at (5,6) and (13,2) white while making the tile at (8,12) blue.
 matrix.set([{x:5,y:6}, {x:8, y:12, color:"4286f4"}, {x:13, y:2}], "FFFFFF")
 
 ```
@@ -77,7 +77,7 @@ matrix.set([{x:5,y:6}, {x:8, y:12, color:"4286f4"}, {x:13, y:2}], "FFFFFF")
 ```ruby
 matrix = MatrixManager.new(teamID)
 
-//Applies a blue color to all tiles within the rectangle with an upper left corner at (1,1) and a lower right corner at (4,6)
+#Applies a blue color to all tiles within the rectangle with an upper left corner at (1,1) and a lower right corner at (4,6)
 matrix.set_rect({x:1 ,y:1}, {x:4, y:6}, "4286f4")
 
 ```
