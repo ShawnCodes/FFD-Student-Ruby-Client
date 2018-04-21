@@ -78,7 +78,7 @@ matrix.set([{x:5,y:6}, {x:8, y:12, color:"4286f4"}, {x:13, y:2}], "FFFFFF")
 matrix = MatrixManager.new(teamID)
 
 //Applies a blue color to all tiles within the rectangle with an upper left corner at (1,1) and a lower right corner at (4,6)
-matrix.read_rect({x:1 ,y:1}, {x:4, y:6}, "4286f4")
+matrix.set_rect({x:1 ,y:1}, {x:4, y:6}, "4286f4")
 
 ```
 
