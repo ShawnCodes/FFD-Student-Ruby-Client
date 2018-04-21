@@ -47,15 +47,9 @@ class MatrixManager
 	def set(argument, color)
 
 		if argument.class == Array
-			pause_counter = 0
 			argument.each do |point|
 				self.send(point[:x], point[:y], point[:color] || color)
-				if pause_counter == 2
-					sleep(1)
-					pause_counter = 0
-				else
-					pause_counter += 1
-				end
+				sleep(0.3)
 			end
 		elsif argument.class == Hash
 			self.send(argument[:x], argument[:y], argument[:color] || color)
