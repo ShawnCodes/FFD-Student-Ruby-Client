@@ -7,7 +7,7 @@ class MatrixManager
 		@redis = Redis.new(port: 6379)
 		@server_url = "http://mayisgr8.win"
 		@id = id
-		@last_write = Time.now
+		@last_write = false
 	end
 
 	def initialize_blank(size=1000)
@@ -47,7 +47,7 @@ class MatrixManager
 
 	def set(argument, color)
 
-		if Time.now - @last_write >= 0.3
+		if (@last_write && !(Time.now - @last_write >= 0.3)
 			return
 		end
 
